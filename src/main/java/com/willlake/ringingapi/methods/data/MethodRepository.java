@@ -1,0 +1,11 @@
+package com.willlake.ringingapi.methods.data;
+
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
+
+public interface MethodRepository extends CrudRepository<Method, Long> {
+    List<Method> findByName(String name);
+
+    Method findByMethodId (Long id);
+}
