@@ -18,7 +18,7 @@ public class EndpointsConfig {
     }
 
     @Bean
-    public MethodHandler methodHandler() {
-        return new MethodHandler();
+    public MethodHandler methodHandler(MethodRepository methodRepository) {
+        return new MethodHandler(methodRepository);
     }
 }

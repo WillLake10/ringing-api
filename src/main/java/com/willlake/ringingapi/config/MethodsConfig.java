@@ -20,4 +20,6 @@ public class MethodsConfig {
     ) {
         return new MethodRepoControl(methodRepository, readMethodsFromFile);
     }
+
+
 }
