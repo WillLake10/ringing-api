@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadMethodsFromFile {
-    private static final Logger log = LoggerFactory.getLogger(ReadMethodsFromFile.class);
-
     public static List<Method> parseMethodxml() {
         try {
             List<Method> methods = new ArrayList<>();
@@ -18,7 +16,6 @@ public class ReadMethodsFromFile {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] arr = line.split(",");
-//                log.info(String.join(" | ", arr));
                 methods.add(new Method(
                         Long.parseLong(arr[0]),
                         arr[1].replace("|", ","),
@@ -70,8 +67,8 @@ public class ReadMethodsFromFile {
 
     private static String placeNot(String[] arr) {
         StringBuilder t = new StringBuilder();
-        for (int i = 10; i < arr.length; i++){
-            if (i != 10){
+        for (int i = 10; i < arr.length; i++) {
+            if (i != 10) {
                 t.append(".");
             }
             t.append(arr[i]);

@@ -17,10 +17,9 @@ import java.util.Set;
 
 @SpringBootApplication
 public class RingingApiApplication {
-    private ReadMethodsFromFile readMethodsFromFile;
-    private MethodRepoControl methodRepoControl;
+    private final ReadMethodsFromFile readMethodsFromFile;
+    private final MethodRepoControl methodRepoControl;
 
-    @Autowired
     public RingingApiApplication(ReadMethodsFromFile readMethodsFromFile, MethodRepoControl methodRepoControl) {
         this.readMethodsFromFile = readMethodsFromFile;
         this.methodRepoControl = methodRepoControl;
@@ -33,39 +32,12 @@ public class RingingApiApplication {
     }
 
     @Bean
-    public CommandLineRunner t(MethodRepository repo) {
+    public CommandLineRunner t(MethodRepository repo, MethodRepoControl methodRepoControl) {
         return (args) -> {
-//            repoControl.clearAllMethodsFromDB();
-//            repoControl.addMethodsFromFile();
-
-//            repo.save(new Method("X", "Y", 6, "a", false, 10, "Z", "12"));
-
-//            log.info("Customers found with findAll():");
-//            log.info("-------------------------------");
-//            for (Method method : repo.findAll()) {
-//                log.info(method.toString());
-//            }
-//            log.info("");
-
+            if (repo.countAll() < 22000) {
+                methodRepoControl.addMethodsFromFile();
+            }
             log.info(repo.countAll() + " records in the Methods Table");
-//
-//            // fetch an individual customer by ID
-//            Method method = repo.findByMethodId(41571L);
-//            log.info("Customer found with findById(41571L):");
-//            log.info("--------------------------------");
-//            log.info(method.toString());
-//            log.info("");
-//
-//            // fetch customers by last name
-//            log.info("Customer found with findByLastName('Bauer'):");
-//            log.info("--------------------------------------------");
-//            repo.findByName("Freight Treble Place Minimus").forEach(m -> {
-//                log.info(m.toString());
-//            });
-//            // for (Customer bauer : repository.findByLastName("Bauer")) {
-//            //  log.info(bauer.toString());
-//            // }
-//            log.info("");
         };
     }
 }

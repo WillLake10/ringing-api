@@ -16,7 +16,7 @@ public class Method {
     @Column(length = 500)
     private String notation;
 
-    protected Method() { }
+    protected Method() {}
 
     public Method(long methodId, String name, String firstRung, int stage, String symmetry, Boolean little, int lengthOfLead, String leadHead, String notation) {
         this.methodId = methodId;

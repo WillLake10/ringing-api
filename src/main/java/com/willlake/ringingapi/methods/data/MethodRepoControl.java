@@ -6,18 +6,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MethodRepoControl {
-//    @Autowired
-//    MethodRepository repository;
-//
-//    @Autowired
-//    ReadMethodsFromFile readMethodsFromFile;
-//
-//    public void addMethodsFromFile() {
-//        Set<Method> returnSet = new HashSet<>(readMethodsFromFile.parseMethodxml());
-//        returnSet.forEach(m -> repository.save(m));
-//    }
-//
-//    public void clearAllMethodsFromDB() {
-//        repository.deleteAll();
-//    }
+    private final MethodRepository repository;
+    private final ReadMethodsFromFile readMethodsFromFile;
+
+    public MethodRepoControl(MethodRepository repository, ReadMethodsFromFile readMethodsFromFile) {
+        this.repository = repository;
+        this.readMethodsFromFile = readMethodsFromFile;
+    }
+
+    public void addMethodsFromFile() {
+        Set<Method> returnSet = new HashSet<>(readMethodsFromFile.parseMethodxml());
+        returnSet.forEach(m -> repository.save(m));
+    }
+
+    public void clearAllMethodsFromDB() {
+        repository.deleteAll();
+    }
 }
