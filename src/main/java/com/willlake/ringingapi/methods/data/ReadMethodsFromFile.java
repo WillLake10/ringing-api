@@ -65,14 +65,14 @@ public class ReadMethodsFromFile {
     }
 
     private static Boolean little(String input) {
-        return input.contains("y");
+        return input.contains("Y");
     }
 
     private static String placeNot(String[] arr) {
         StringBuilder t = new StringBuilder();
         for (int i = 10; i < arr.length; i++){
             if (i != 10){
-                t.append("|");
+                t.append(".");
             }
             t.append(arr[i]);
         }
