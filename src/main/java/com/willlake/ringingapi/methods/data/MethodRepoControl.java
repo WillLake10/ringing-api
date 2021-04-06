@@ -1,6 +1,6 @@
 package com.willlake.ringingapi.methods.data;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.willlake.ringingapi.methods.data.dto.Method;
 
 import java.util.HashSet;
 import java.util.Set;

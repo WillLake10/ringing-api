@@ -1,7 +1,6 @@
 package com.willlake.ringingapi.endpoints;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.willlake.ringingapi.endpoints.handlers.DatabaseHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

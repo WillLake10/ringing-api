@@ -1,6 +1,6 @@
 package com.willlake.ringingapi.endpoints;
 
-import com.willlake.ringingapi.methods.data.Method;
+import com.willlake.ringingapi.methods.data.dto.Method;
 import com.willlake.ringingapi.methods.data.MethodRepository;
 
 public class MethodHandler {

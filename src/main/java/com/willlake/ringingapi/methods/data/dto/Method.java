@@ -1,4 +1,4 @@
-package com.willlake.ringingapi.methods.data;
+package com.willlake.ringingapi.methods.data.dto;
 
 import javax.persistence.*;
 

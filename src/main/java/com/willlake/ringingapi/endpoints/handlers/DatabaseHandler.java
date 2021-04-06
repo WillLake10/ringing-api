@@ -1,4 +1,4 @@
-package com.willlake.ringingapi.endpoints;
+package com.willlake.ringingapi.endpoints.handlers;
 
 import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;

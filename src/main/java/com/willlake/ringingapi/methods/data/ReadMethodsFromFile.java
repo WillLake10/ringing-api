@@ -1,78 +1,122 @@
 package com.willlake.ringingapi.methods.data;
 
+import com.willlake.ringingapi.RingingApiApplication;
+import com.willlake.ringingapi.methods.data.dto.Lead;
+import com.willlake.ringingapi.methods.data.dto.Method;
+import com.willlake.ringingapi.methods.data.dto.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ReadMethodsFromFile {
-    public static List<Method> parseMethodxml() {
+
+    private static final Logger log = LoggerFactory.getLogger(RingingApiApplication.class);
+
+    public List<Method> parseMethodxml() {
         try {
             List<Method> methods = new ArrayList<>();
-            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/CCCBR_methods.csv"));
+            BufferedReader reader = getFile();
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] arr = line.split(",");
-                methods.add(new Method(
-                        Long.parseLong(arr[0]),
-                        arr[1].replace("|", ","),
-                        arr[2],
-                        Integer.parseInt(arr[5]),
-                        symmetry(arr[6]),
-                        little(arr[7]),
-                        Integer.parseInt(arr[8]),
-                        arr[9],
-                        placeNot(arr)
-                ));
+                methods.add(parseMethod(line));
             }
             return methods;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new NullPointerException();
         }
-        return null;
     }
 
-    private static String symmetry(String input) {
-        String retString = "";
+    public Method parseMethod(String line) {
+        String[] arr = line.split(",");
+        return new Method(
+                Long.parseLong(arr[0]),
+                arr[1].replace("|", ","),
+                arr[2],
+                Integer.parseInt(arr[5]),
+                decodeSymmetry(arr[6]),
+                little(arr[7]),
+                Integer.parseInt(arr[8]),
+                arr[9],
+                placeNot(arr)
+        );
+    }
+
+    private BufferedReader getFile() throws FileNotFoundException {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/CCCBR_methods.csv"));
+            return reader;
+        } catch (Exception e) {
+            throw new FileNotFoundException();
+        }
+    }
+
+    public String decodeSymmetry(String input) {
+        List<String> syms = new ArrayList<>();
         if (input.contains("A")) {
-            retString = retString + "Asymmetric";
+            syms.add("Asymmetric");
         }
         if (input.contains("D")) {
-            if (retString.length() > 0) {
-                retString = retString + ", ";
-            }
-            retString = retString + "Double symmetry";
+            syms.add("Double");
         }
         if (input.contains("P")) {
-            if (retString.length() > 0) {
-                retString = retString + ", ";
-            }
-            retString = retString + "Palindromic symmetry";
+            syms.add("Palindromic");
         }
         if (input.contains("R")) {
-            if (retString.length() > 0) {
-                retString = retString + ", ";
-            }
-            retString = retString + "Rotational symmetry";
+            syms.add("Rotational");
         }
-        return retString;
+        StringBuilder retString = new StringBuilder();
+        if (syms.size() > 1) {
+            for (int i = 0; i < syms.size(); i++) {
+                if (i == 0) {
+                    retString.append(syms.get(i));
+                } else if (i == syms.size() - 1) {
+                    retString.append(" and ").append(syms.get(i)).append(" Symmetry");
+                } else {
+                    retString.append(", ").append(syms.get(i));
+                }
+            }
+        } else {
+            retString.append(syms.get(0)).append(" Symmetry");
+        }
+
+        return retString.toString();
     }
 
-    private static Boolean little(String input) {
+    private Boolean little(String input) {
         return input.contains("Y");
     }
 
-    private static String placeNot(String[] arr) {
+    private String placeNot(String[] arr) {
         StringBuilder t = new StringBuilder();
         for (int i = 10; i < arr.length; i++) {
             if (i != 10) {
                 t.append(".");
             }
-            t.append(arr[i]);
+            if (arr[i].equals("-")){
+                t.append("x");
+            }else {
+                t.append(arr[i]);
+            }
         }
         return t.toString();
+    }
+
+    public String findLeadHead(String[] arr) {
+        String leadHead = "";
+        String[] placeNot = placeNot(arr).split(".");
+        Lead firstLead = new Lead();
+        firstLead.addRow(new Row(Integer.parseInt(arr[5]), true));
+//        for(int i = 0; i < placeNot.length; i++) {
+//            if (placeNot[i].equals("x")){
+                firstLead.addNextRow("x");
+//            }
+//        }
+        log.info(firstLead.toString());
+
+        return leadHead;
     }
 }

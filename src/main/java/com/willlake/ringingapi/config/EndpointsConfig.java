@@ -1,6 +1,6 @@
 package com.willlake.ringingapi.config;
 
-import com.willlake.ringingapi.endpoints.DatabaseHandler;
+import com.willlake.ringingapi.endpoints.handlers.DatabaseHandler;
 import com.willlake.ringingapi.endpoints.MethodHandler;
 import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;

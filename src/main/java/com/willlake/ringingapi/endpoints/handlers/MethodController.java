@@ -1,11 +1,10 @@
-package com.willlake.ringingapi.endpoints;
+package com.willlake.ringingapi.endpoints.handlers;
 
-import com.willlake.ringingapi.methods.data.Method;
+import com.willlake.ringingapi.endpoints.MethodHandler;
+import com.willlake.ringingapi.methods.data.dto.Method;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("/methods")
