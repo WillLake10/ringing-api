@@ -22,7 +22,9 @@ public class ReadMethodsFromFile {
             BufferedReader reader = getFile();
             String line;
             while ((line = reader.readLine()) != null) {
+//                log.info(line);
                 methods.add(parseMethod(line));
+//                log.info("done");
             }
             return methods;
         } catch (Exception e) {
@@ -40,7 +42,7 @@ public class ReadMethodsFromFile {
                 decodeSymmetry(arr[6]),
                 little(arr[7]),
                 Integer.parseInt(arr[8]),
-                arr[9],
+                findLeadHead(arr),
                 placeNot(arr)
         );
     }
@@ -96,9 +98,9 @@ public class ReadMethodsFromFile {
             if (i != 10) {
                 t.append(".");
             }
-            if (arr[i].equals("-")){
+            if (arr[i].equals("-")) {
                 t.append("x");
-            }else {
+            } else {
                 t.append(arr[i]);
             }
         }
@@ -106,17 +108,17 @@ public class ReadMethodsFromFile {
     }
 
     public String findLeadHead(String[] arr) {
-        String leadHead = "";
-        String[] placeNot = placeNot(arr).split(".");
+//        log.info("Leadhead started");
+        String fullNot = placeNot(arr);
+        String[] placeNotation = fullNot.split("\\.");
+//        log.info(Arrays.toString(placeNotation));
         Lead firstLead = new Lead();
         firstLead.addRow(new Row(Integer.parseInt(arr[5]), true));
-//        for(int i = 0; i < placeNot.length; i++) {
-//            if (placeNot[i].equals("x")){
-                firstLead.addNextRow("x");
-//            }
-//        }
-        log.info(firstLead.toString());
-
-        return leadHead;
+        for (int i = 0; i < placeNotation.length; i++) {
+            firstLead.addNextRow(placeNotation[i]);
+//            log.info("Leadhead row " + i + " added");
+        }
+//        log.info("Leadhead Finished");
+        return firstLead.getRows().get(firstLead.getRows().size() - 1).toShortString();
     }
 }

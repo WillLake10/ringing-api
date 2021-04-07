@@ -28,7 +28,7 @@ public class ReadMethodsFromFileTest {
         assertEquals("Palindromic Symmetry", method.getSymmetry());
         assertEquals(false, method.getLittle());
         assertEquals(16, method.getLengthOfLead());
-        assertEquals("a", method.getLeadHead());
+        assertEquals("13527486", method.getLeadHead());
         assertEquals("x.18.x.18.x.18.x.18.x.18.x.18.x.18.x.12", method.getNotation());
     }
 
@@ -45,6 +45,14 @@ public class ReadMethodsFromFileTest {
     public void canFindLeadHead() {
         String input = "12834,Plain Bob Major,1725-04-26,RW:1959/651,,8,P,,16,a,-,18,-,18,-,18,-,18,-,18,-,18,-,18,-,12,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 
-        readMethodsFromFile.findLeadHead(input.split(","));
+//        String leadHead = readMethodsFromFile.findLeadHead(input.split(","));
+//
+//        assertEquals("13527486", leadHead);
+
+        input = "14015,Bastow Little Bob Royal,,RW:1921/222,,10,P,Y,4,m,-,12,-,10,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+
+        String bastowLeadHead = readMethodsFromFile.findLeadHead(input.split(","));
+
+        assertEquals("1426385079", bastowLeadHead);
     }
 }

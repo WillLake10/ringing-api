@@ -29,9 +29,11 @@ public class RingingApiApplication {
     @Bean
     public CommandLineRunner t(MethodRepository repo, MethodRepoControl methodRepoControl) {
         return (args) -> {
+            log.info("Setting up database...");
             if (repo.countAll() < 22000) {
                 methodRepoControl.addMethodsFromFile();
             }
+            log.info("Database ready");
             log.info(repo.countAll() + " records in the Methods Table");
         };
     }
