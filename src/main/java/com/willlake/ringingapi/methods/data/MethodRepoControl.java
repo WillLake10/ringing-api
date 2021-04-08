@@ -7,16 +7,16 @@ import java.util.Set;
 
 public class MethodRepoControl {
     private final MethodRepository repository;
-    private final ReadMethodsFromFile readMethodsFromFile;
+    private final ReadMethodXml readMethodXml;
 
-    public MethodRepoControl(MethodRepository repository, ReadMethodsFromFile readMethodsFromFile) {
+    public MethodRepoControl(MethodRepository repository, ReadMethodXml readMethodXml) {
         this.repository = repository;
-        this.readMethodsFromFile = readMethodsFromFile;
+        this.readMethodXml = readMethodXml;
     }
 
     public void addMethodsFromFile() {
-        Set<Method> returnSet = new HashSet<>(readMethodsFromFile.parseMethodxml());
-        returnSet.forEach(m -> repository.save(m));
+        Set<Method> returnSet = new HashSet<>(readMethodXml.readXml());
+        returnSet.forEach(repository::save);
     }
 
     public void clearAllMethodsFromDB() {

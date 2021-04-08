@@ -52,9 +52,9 @@ public class Lead {
         if (notation.equals("x")) {
             for (int i = 0; i < this.rows.get(this.rows.size() - 1).getRow().size(); i++) {
                 if (this.rows.get(this.rows.size() - 1).getRow().get(i).getBellPos() % 2 == 0) {
-                    bells[i + 1] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i - 1);
+                    bells[i + 1] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i + 1);
                 } else {
-                    bells[i - 1] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i + 1);
+                    bells[i - 1] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i - 1);
                 }
             }
         } else {
