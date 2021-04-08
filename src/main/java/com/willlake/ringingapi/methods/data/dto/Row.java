@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Row {
-    int numberOfBells;
-    boolean isRounds;
-    List<Bell> row;
+    private int numberOfBells;
+    private boolean isRounds;
+    private List<Bell> row;
 
     public Row(int numberOfBells, boolean isRounds) {
         this.numberOfBells = numberOfBells;
@@ -21,14 +21,7 @@ public class Row {
     public Row(int numberOfBells, List<Bell> row) {
         this.numberOfBells = numberOfBells;
         this.row = row;
-        this.isRounds = false;
-    }
-
-    public Row(int numberOfBells, Bell[] row) {
-        this.numberOfBells = numberOfBells;
-        this.row = new ArrayList<>();
-        this.row.addAll(Arrays.asList(row));
-        this.isRounds = false;
+        this.isRounds = checkIfRounds();
     }
 
     @Override
@@ -43,9 +36,18 @@ public class Row {
     public String toShortString() {
         StringBuilder retString = new StringBuilder();
         for(int i = 0; i < row.size(); i++){
-            retString.append(row.get(i).bell);
+            retString.append(row.get(i).getBell());
         }
         return retString.toString();
+    }
+
+    public boolean checkIfRounds() {
+        for (int i = 0; i < row.size(); i++){
+            if (row.get(i).getBellPos() != row.get(i).getBellNum()){
+                return false;
+            }
+        }
+        return true;
     }
 
     public int getNumberOfBells() {

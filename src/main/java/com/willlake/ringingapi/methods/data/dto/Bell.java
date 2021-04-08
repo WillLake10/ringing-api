@@ -1,7 +1,9 @@
 package com.willlake.ringingapi.methods.data.dto;
 
+import java.util.Arrays;
+
 public class Bell {
-    String[] bellNames = {
+    private String[] bellNames = {
             "1",
             "2",
             "3",
@@ -26,9 +28,9 @@ public class Bell {
             "L"
     };
 
-    String bell;
-    int bellNum;
-    int bellPos;
+    private String bell;
+    private int bellNum;
+    private int bellPos;
 
     public Bell(int bellNum, int bellPos) {
         this.bell = bellNames[bellNum-1];
@@ -40,6 +42,7 @@ public class Bell {
     public String toString() {
         return "Bell{" +
                 "bell='" + bell + '\'' +
+                ", bellNum=" + bellNum +
                 ", bellPos=" + bellPos +
                 '}';
     }
@@ -58,5 +61,13 @@ public class Bell {
 
     public void setBellPos(int bellPos) {
         this.bellPos = bellPos;
+    }
+
+    public int getBellNum() {
+        return bellNum;
+    }
+
+    public void setBellNum(int bellNum) {
+        this.bellNum = bellNum;
     }
 }

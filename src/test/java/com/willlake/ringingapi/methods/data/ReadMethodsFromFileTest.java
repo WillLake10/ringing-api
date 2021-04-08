@@ -1,4 +1,4 @@
-package com.willlake.ringingapi.methods;
+package com.willlake.ringingapi.methods.data;
 
 import com.willlake.ringingapi.RingingApiApplication;
 import com.willlake.ringingapi.methods.data.dto.Method;

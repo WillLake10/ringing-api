@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Lead {
-    List<Row> rows;
+    private List<Row> rows;
 
     public Lead(List<Row> rows) {
         this.rows = rows;
@@ -47,14 +47,14 @@ public class Lead {
     }
 
     public void addNextRow(String notation) {
-        Bell[] bells = new Bell[this.rows.get(0).row.size()];
-        int[] wayToGo = new int[this.rows.get(0).row.size()];
+        Bell[] bells = new Bell[this.rows.get(0).getRow().size()];
+        int[] wayToGo = new int[this.rows.get(0).getRow().size()];
         if (notation.equals("x")) {
-            for (int i = 0; i < this.rows.get(this.rows.size() - 1).row.size(); i++) {
-                if (this.rows.get(this.rows.size() - 1).row.get(i).bellPos % 2 == 0) {
-                    bells[i + 1] = new Bell(this.rows.get(this.rows.size() - 1).row.get(i).bellNum, i - 1);
+            for (int i = 0; i < this.rows.get(this.rows.size() - 1).getRow().size(); i++) {
+                if (this.rows.get(this.rows.size() - 1).getRow().get(i).getBellPos() % 2 == 0) {
+                    bells[i + 1] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i - 1);
                 } else {
-                    bells[i - 1] = new Bell(this.rows.get(this.rows.size() - 1).row.get(i).bellNum, i + 1);
+                    bells[i - 1] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i + 1);
                 }
             }
         } else {
@@ -97,7 +97,7 @@ public class Lead {
                     wayToGo[i] = STAY;
                     normalDirection = !normalDirection;
                 }else {
-                    if (this.rows.get(this.rows.size() - 1).row.get(i).bellPos % 2 != 0){
+                    if (this.rows.get(this.rows.size() - 1).getRow().get(i).getBellPos() % 2 != 0){
                         if (normalDirection){
                             wayToGo[i] = DOWN;
                         } else {
@@ -118,16 +118,16 @@ public class Lead {
 
             for (int i = 0; i < bells.length; i++){
                 if (wayToGo[i] == STAY){
-                    bells[i] = new Bell(this.rows.get(this.rows.size() - 1).row.get(i).bellNum, i);
+                    bells[i] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i);
                 } else if (wayToGo[i] == UP){
-                    bells[i+1] = new Bell(this.rows.get(this.rows.size() - 1).row.get(i).bellNum, i+1);
+                    bells[i+1] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i+1);
                 } else if (wayToGo[i] == DOWN){
-                    bells[i-1] = new Bell(this.rows.get(this.rows.size() - 1).row.get(i).bellNum, i-1);
+                    bells[i-1] = new Bell(this.rows.get(this.rows.size() - 1).getRow().get(i).getBellNum(), i-1);
                 }
             }
         }
 
-        this.rows.add(new Row(bells.length, bells));
+        this.rows.add(new Row(bells.length, Arrays.asList(bells)));
     }
 
 
