@@ -13,7 +13,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ReadMethodXml {
@@ -111,7 +114,7 @@ public class ReadMethodXml {
                                             Integer.parseInt(stage),
                                             name,
                                             title,
-                                            notation,
+                                            getLongNotation(notation),
                                             classification,
                                             Integer.parseInt(lengthOfLead),
                                             Integer.parseInt(numberOfHunts),
@@ -153,4 +156,45 @@ public class ReadMethodXml {
         return field;
     }
 
+    public String getLongNotation(String notationIn) {
+        StringBuilder notationOut = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+        String[] notationArr = notationIn.split("(?!^)");
+        List<String> returnArr = new ArrayList<>();
+        List<String> tempArr = new ArrayList<>();
+        for (int i = 0; i < notationArr.length; i++){
+            switch (notationArr[i]) {
+                case "-" -> {
+                    if (temp.length() > 0) {
+                        returnArr.add(temp.toString());
+                        temp = new StringBuilder();
+                    }
+                    returnArr.add("x");
+                }
+                case "." -> {
+                    returnArr.add(temp.toString());
+                    temp = new StringBuilder();
+                }
+                case "," -> {
+                    if (temp.length() > 0) {
+                        returnArr.add(temp.toString());
+                        temp = new StringBuilder();
+                    }
+                    for (int j = returnArr.size() - 2; j >= 0; j--) {
+                        tempArr.add(returnArr.get(j));
+                    }
+                    returnArr.addAll(tempArr);
+                }
+                default -> temp.append(notationArr[i]);
+            }
+        }
+        returnArr.add(temp.toString());
+        for (int i = 0; i < returnArr.size(); i++){
+            notationOut.append(returnArr.get(i));
+            if (i != returnArr.size() - 1) {
+                notationOut.append(".");
+            }
+        }
+        return notationOut.toString();
+    }
 }
