@@ -15,6 +15,15 @@ public class Lead {
         this.rows = rows;
     }
 
+    public Lead(Row row, String notation) {
+        this.rows = new ArrayList<>();
+        this.rows.add(row);
+        String[] splitNot = notation.split("\\.");
+        for (int i = 0; i < splitNot.length; i++) {
+            addNextRow(splitNot[i]);
+        }
+    }
+
     public Lead() {
         this.rows = new ArrayList<>();
     }

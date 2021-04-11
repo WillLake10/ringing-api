@@ -9,7 +9,7 @@ import java.util.List;
 public interface MethodRepository extends CrudRepository<Method, Long> {
     List<Method> findByName(String name);
 
-    Method findByMethodId(Long id);
+    Method findByMethodId(String id);
 
     @Query("SELECT COUNT(methodId) FROM Method")
     long countAll();
