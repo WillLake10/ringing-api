@@ -10,17 +10,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ReadMethodXmlTest {
     ReadMethodXml readMethodXml = new ReadMethodXml();
 
-    private static final Logger log = LoggerFactory.getLogger(RingingApiApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(ReadMethodXmlTest.class);
 
     @Test
-    public void data() {
-        readMethodXml.readXml();
+    public void canGetLongNotationLeftSymmetry() {
+        assertEquals("x.18.x.18.x.18.x.18.x.18.x.18.x.18.x.12", readMethodXml.getLongNotation("-18-18-18-18,12"));
     }
 
     @Test
-    public void canGetLongNotation() {
-        String inputString = "-18-18-18-18,12";
+    public void canGetLongNotationRightSymmetry() {
+        assertEquals("3.1.5.1.5.1.5.1.5.1", readMethodXml.getLongNotation("3,1.5.1.5.1"));
+    }
 
-        assertEquals("x.18.x.18.x.18.x.18.x.18.x.18.x.18.x.12", readMethodXml.getLongNotation(inputString));
+    @Test
+    public void canGetLongNotationNoSymmetry() {
+        assertEquals(
+                "x.38.x.14.x.58.x.1236.x.14.x.58.x.16.34.78.34.16.x.58.x.14.x.36.x.1258.x.14.x.38.x.12",
+                readMethodXml.getLongNotation("-38-14-58-1236-14-58-16.34.78.34.16-58-14-36-1258-14-38-12")
+        );
     }
 }

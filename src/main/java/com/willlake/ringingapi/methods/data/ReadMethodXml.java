@@ -55,7 +55,7 @@ public class ReadMethodXml {
                     boolean plain = false;
                     boolean trebleDodging = false;
 
-                    String methodId = "";
+                    String methodId;
                     String notation = "";
                     String title = "";
                     String name = "";
@@ -158,12 +158,45 @@ public class ReadMethodXml {
 
     public String getLongNotation(String notationIn) {
         StringBuilder notationOut = new StringBuilder();
+        if (notationIn.contains(",")) {
+            String[] split = notationIn.split(",");
+            for (int i = 0; i < split.length; i++) {
+                notationOut.append(symmetryForNotation(decodeNotation(split[i])));
+                if (i != split.length - 1) {
+                    notationOut.append(".");
+                }
+            }
+        } else {
+            notationOut.append(decodeNotation(notationIn));
+        }
+        return notationOut.toString();
+    }
+
+    private String symmetryForNotation(String notation) {
+        String[] split = notation.split("\\.");
+        StringBuilder notationOut = new StringBuilder();
+        for (String s : split) {
+            notationOut.append(s);
+            if (split.length > 1){
+                notationOut.append(".");
+            }
+        }
+        for (int i = split.length -2 ; i >= 0; i--){
+            notationOut.append(split[i]);
+            if (i != 0){
+                notationOut.append(".");
+            }
+        }
+        return notationOut.toString();
+    }
+
+    private String decodeNotation(String notation) {
+        String[] notationArr = notation.split("(?!^)");
+        StringBuilder notationOut = new StringBuilder();
         StringBuilder temp = new StringBuilder();
-        String[] notationArr = notationIn.split("(?!^)");
         List<String> returnArr = new ArrayList<>();
-        List<String> tempArr = new ArrayList<>();
-        for (int i = 0; i < notationArr.length; i++){
-            switch (notationArr[i]) {
+        for (String s : notationArr) {
+            switch (s) {
                 case "-" -> {
                     if (temp.length() > 0) {
                         returnArr.add(temp.toString());
@@ -175,21 +208,11 @@ public class ReadMethodXml {
                     returnArr.add(temp.toString());
                     temp = new StringBuilder();
                 }
-                case "," -> {
-                    if (temp.length() > 0) {
-                        returnArr.add(temp.toString());
-                        temp = new StringBuilder();
-                    }
-                    for (int j = returnArr.size() - 2; j >= 0; j--) {
-                        tempArr.add(returnArr.get(j));
-                    }
-                    returnArr.addAll(tempArr);
-                }
-                default -> temp.append(notationArr[i]);
+                default -> temp.append(s);
             }
         }
         returnArr.add(temp.toString());
-        for (int i = 0; i < returnArr.size(); i++){
+        for (int i = 0; i < returnArr.size(); i++) {
             notationOut.append(returnArr.get(i));
             if (i != returnArr.size() - 1) {
                 notationOut.append(".");

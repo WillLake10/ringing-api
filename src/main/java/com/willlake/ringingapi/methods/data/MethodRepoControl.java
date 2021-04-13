@@ -16,11 +16,7 @@ public class MethodRepoControl {
 
     public void addMethodsFromFile() {
         Set<Method> returnSet = new HashSet<>(readMethodXml.readXml());
-        returnSet.forEach( m -> {
-                    System.out.println(m);
-                    repository.save(m);
-                }
-        );
+        returnSet.forEach(repository::save);
     }
 
     public void clearAllMethodsFromDB() {
