@@ -3,6 +3,7 @@ package com.willlake.ringingapi.endpoints;
 import com.willlake.ringingapi.endpoints.handlers.MethodHandler;
 import com.willlake.ringingapi.methods.data.dto.Lead;
 import com.willlake.ringingapi.methods.data.dto.Method;
+import com.willlake.ringingapi.methods.data.dto.PlainCourse;
 import com.willlake.ringingapi.methods.data.dto.Row;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class MethodController {
     }
 
     @RequestMapping(value = "/plain/{methodId}", method = RequestMethod.GET)
-    public ResponseEntity<Lead> plainCourse(@PathVariable String methodId) {
+    public ResponseEntity<PlainCourse> plainCourse(@PathVariable String methodId) {
         return new ResponseEntity<>(methodHandler.plainCourse(methodId), HttpStatus.OK);
     }
 

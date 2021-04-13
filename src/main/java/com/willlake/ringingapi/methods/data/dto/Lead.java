@@ -22,6 +22,7 @@ public class Lead {
         for (int i = 0; i < splitNot.length; i++) {
             addNextRow(splitNot[i]);
         }
+        this.rows.remove(row);
     }
 
     public Lead() {
