@@ -249,6 +249,12 @@ public class ReadMethodXml {
                 case "1G" -> main = "1D";
                 case "1J" -> main = "1G";
                 case "1L" -> main = "1J";
+                case "14" -> {
+                    return null;
+                }
+                default -> {
+                    return "";
+                }
             }
             return main + end;
         } else {
@@ -280,6 +286,12 @@ public class ReadMethodXml {
                 case "1G" -> main = "1DFG";
                 case "1J" -> main = "1GHJ";
                 case "1L" -> main = "1JKL";
+                case "14" -> {
+                    return null;
+                }
+                default -> {
+                    return "";
+                }
             }
             return main + end;
         } else {
@@ -292,9 +304,11 @@ public class ReadMethodXml {
             BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/callExceptions.csv"));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] lineSplit = line.replace(" ", "").split(",");
-                if (lineSplit[0].equals(methodId) && lineSplit[1].equals(bobOrSingle)) {
-                    return lineSplit[2];
+                if (!line.contains("//")) {
+                    String[] lineSplit = line.replace(" ", "").split(",");
+                    if (lineSplit[0].equals(methodId) && lineSplit[1].equals(bobOrSingle)) {
+                        return lineSplit[2];
+                    }
                 }
             }
             return null;
