@@ -1,14 +1,13 @@
 package com.willlake.ringingapi.endpoints.handlers;
 
 import com.willlake.ringingapi.methods.data.dto.Lead;
-import com.willlake.ringingapi.methods.data.dto.Method;
+import com.willlake.ringingapi.databaseObj.Method;
 import com.willlake.ringingapi.methods.data.MethodRepository;
 import com.willlake.ringingapi.methods.data.dto.PlainCourse;
 import com.willlake.ringingapi.methods.data.dto.Row;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MethodHandler {
     private final MethodRepository methodRepository;

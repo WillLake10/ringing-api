@@ -1,6 +1,10 @@
-package com.willlake.ringingapi.methods.data.dto;
+package com.willlake.ringingapi.databaseObj;
 
 import javax.persistence.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Arrays;
 
 @Entity
 public class Method {
@@ -26,10 +30,13 @@ public class Method {
     private boolean plain;
     private boolean trebleDodging;
 
+    private String bob;
+    private String single;
 
-    protected Method() {}
+    protected Method() {
+    }
 
-    public Method(String methodId, int stage, String name, String title, String notation, String classification, int lengthOfLead, int numberOfHunts, String huntbellPath, String leadHead, String leadHeadCode, String symmetry, boolean little, boolean differential, boolean plain, boolean trebleDodging) {
+    public Method(String methodId, int stage, String name, String title, String notation, String classification, int lengthOfLead, int numberOfHunts, String huntbellPath, String leadHead, String leadHeadCode, String symmetry, boolean little, boolean differential, boolean plain, boolean trebleDodging, String bob, String single) {
         this.methodId = methodId;
         this.stage = stage;
         this.name = name;
@@ -46,6 +53,8 @@ public class Method {
         this.differential = differential;
         this.plain = plain;
         this.trebleDodging = trebleDodging;
+        this.bob = bob;
+        this.single = single;
     }
 
     @Override
@@ -67,6 +76,8 @@ public class Method {
                 ", differential=" + differential +
                 ", plain=" + plain +
                 ", trebleDodging=" + trebleDodging +
+                ", bob=" + bob +
+                ", single=" + single +
                 '}';
     }
 
@@ -196,5 +207,21 @@ public class Method {
 
     public void setTrebleDodging(boolean trebleDodging) {
         this.trebleDodging = trebleDodging;
+    }
+
+    public String getBob() {
+        return bob;
+    }
+
+    public void setBob(String bob) {
+        this.bob = bob;
+    }
+
+    public String getSingle() {
+        return single;
+    }
+
+    public void setSingle(String single) {
+        this.single = single;
     }
 }

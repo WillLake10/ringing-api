@@ -1,6 +1,6 @@
 package com.willlake.ringingapi.methods.data;
 
-import com.willlake.ringingapi.methods.data.dto.Method;
+import com.willlake.ringingapi.databaseObj.Method;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

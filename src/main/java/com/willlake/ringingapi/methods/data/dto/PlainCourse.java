@@ -1,6 +1,6 @@
 package com.willlake.ringingapi.methods.data.dto;
 
-import com.willlake.ringingapi.RingingApiApplication;
+import com.willlake.ringingapi.databaseObj.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
