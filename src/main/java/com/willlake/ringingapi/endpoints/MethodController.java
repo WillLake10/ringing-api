@@ -31,12 +31,12 @@ public class MethodController {
         return new ResponseEntity<>(methodHandler.getMethod(methodId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/plain/{methodId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{methodId}/plain", method = RequestMethod.GET)
     public ResponseEntity<PlainCourse> plainCourse(@PathVariable String methodId) {
         return new ResponseEntity<>(methodHandler.plainCourse(methodId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/plain/{methodId}/short", method = RequestMethod.GET)
+    @RequestMapping(value = "/{methodId}/plain/short", method = RequestMethod.GET)
     public ResponseEntity<List<String>> plainShort(@PathVariable String methodId) {
         return new ResponseEntity<>(methodHandler.plainShort(methodId), HttpStatus.OK);
     }
