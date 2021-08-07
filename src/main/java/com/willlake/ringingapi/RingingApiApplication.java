@@ -4,6 +4,8 @@ import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;
 //import com.willlake.ringingapi.methods.data.ReadMethodsFromFile;
 import com.willlake.ringingapi.methods.data.ReadMethodXml;
+import com.willlake.ringingapi.towers.data.TowerRepoControl;
+import com.willlake.ringingapi.towers.data.TowerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -20,14 +22,18 @@ public class RingingApiApplication {
     }
 
     @Bean
-    public CommandLineRunner t(MethodRepository repo, MethodRepoControl methodRepoControl) {
+    public CommandLineRunner t(MethodRepository methodRepository, MethodRepoControl methodRepoControl, TowerRepository towerRepository, TowerRepoControl towerRepoControl) {
         return (args) -> {
             log.info("Setting up database...");
-            if (repo.countAll() < 22000) {
+            if (methodRepository.countAll() < 22000) {
                 methodRepoControl.addMethodsFromFile();
             }
+            if (towerRepository.countAll() < 7000) {
+                towerRepoControl.addTowersFromFile();
+            }
             log.info("Database ready");
-            log.info(repo.countAll() + " records in the Methods Table");
+            log.info(methodRepository.countAll() + " records in the Methods Table");
+            log.info(towerRepository.countAll() + " records in the Towers Table");
         };
     }
 }
