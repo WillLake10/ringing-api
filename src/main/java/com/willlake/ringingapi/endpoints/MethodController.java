@@ -36,7 +36,7 @@ public class MethodController {
         return new ResponseEntity<>(methodHandler.plainCourse(methodId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/plainShort/{methodId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/plain/{methodId}/short", method = RequestMethod.GET)
     public ResponseEntity<List<String>> plainShort(@PathVariable String methodId) {
         return new ResponseEntity<>(methodHandler.plainShort(methodId), HttpStatus.OK);
     }

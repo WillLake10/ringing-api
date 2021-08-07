@@ -16,11 +16,12 @@ public class PlainCourse {
         this.plainCourse = new ArrayList<>();
         Row row = new Row(method.getStage(), true);
         boolean endOfCourse = false;
-        while (!endOfCourse){
+        log.info("Building plain cause for " + method.getTitle());
+        while (!endOfCourse) {
             this.plainCourse.add(new Lead(row, method.getNotation()));
-            row = this.plainCourse.get(this.plainCourse.size()-1).getRows().get(this.plainCourse.get(this.plainCourse.size()-1).getRows().size()-1);
-            log.info(this.plainCourse.get(this.plainCourse.size()-1).getRows().get(this.plainCourse.get(this.plainCourse.size()-1).getRows().size()-1).getShortRow());
-            if (this.plainCourse.get(this.plainCourse.size()-1).getRows().get(this.plainCourse.get(this.plainCourse.size()-1).getRows().size()-1).isRounds()){
+            row = this.plainCourse.get(this.plainCourse.size() - 1).getRows().get(this.plainCourse.get(this.plainCourse.size() - 1).getRows().size() - 1);
+            log.debug(this.plainCourse.get(this.plainCourse.size() - 1).getRows().get(this.plainCourse.get(this.plainCourse.size() - 1).getRows().size() - 1).getShortRow());
+            if (this.plainCourse.get(this.plainCourse.size() - 1).getRows().get(this.plainCourse.get(this.plainCourse.size() - 1).getRows().size() - 1).isRounds()) {
                 endOfCourse = true;
             }
         }
