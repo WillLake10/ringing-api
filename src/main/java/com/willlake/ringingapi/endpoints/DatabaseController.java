@@ -1,6 +1,8 @@
 package com.willlake.ringingapi.endpoints;
 
 import com.willlake.ringingapi.endpoints.handlers.DatabaseHandler;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +17,12 @@ public class DatabaseController {
     }
 
     @RequestMapping(value = "/clear", method = RequestMethod.GET)
-    public void clear() {
-        databaseHandler.clear();
+    public ResponseEntity<String> clear() {
+        return databaseHandler.clear();
+    }
+
+    @RequestMapping(value = "/methods/addFromFile", method = RequestMethod.GET)
+    public ResponseEntity<String> addMethodsFromFile() {
+        return databaseHandler.addMethodsFromFile();
     }
 }
