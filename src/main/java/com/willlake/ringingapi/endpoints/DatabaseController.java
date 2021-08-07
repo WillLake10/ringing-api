@@ -21,8 +21,18 @@ public class DatabaseController {
         return databaseHandler.clear();
     }
 
-    @RequestMapping(value = "/methods/addFromFile", method = RequestMethod.GET)
+    @RequestMapping(value = "/addFromFile", method = RequestMethod.GET)
+    public ResponseEntity<String> addAllFromFile() {
+        return databaseHandler.addAllFromFile();
+    }
+
+    @RequestMapping(value = "/addFromFile/methods", method = RequestMethod.GET)
     public ResponseEntity<String> addMethodsFromFile() {
         return databaseHandler.addMethodsFromFile();
+    }
+
+    @RequestMapping(value = "/addFromFile/towers", method = RequestMethod.GET)
+    public ResponseEntity<String> addTowersFromFile() {
+        return databaseHandler.addTowersFromFile();
     }
 }
