@@ -36,27 +36,31 @@ public class ReadTowerCsv {
                     }
 
                     try {
-                        towers.add(new Tower(
-                                values[0],
-                                ringType,
-                                values[2],
-                                values[3],
-                                values[5],
-                                values[7],
-                                values[8],
-                                values[10],
-                                values[11],
-                                values[12],
-                                Integer.parseInt(values[13]),
-                                Integer.parseInt(values[16]),
-                                values[18],
-                                values[19],
-                                toilet,
-                                simulator,
-                                values[24],
-                                values[28],
-                                values[29]));
-                    } catch (Exception e){
+                        towers.add(
+                                new Tower(
+                                        values[0],
+                                        ringType,
+                                        values[2],
+                                        values[3],
+                                        values[5],
+                                        values[7],
+                                        values[8],
+                                        values[10],
+                                        values[11],
+                                        values[12],
+                                        Integer.parseInt(values[13]),
+                                        Integer.parseInt(values[16]),
+                                        values[18],
+                                        values[19],
+                                        toilet,
+                                        simulator,
+                                        values[24],
+                                        values[28],
+                                        values[29],
+                                        values[36]
+                                )
+                        );
+                    } catch (Exception e) {
                         log.warn("Failed to save tower: " + Arrays.toString(values));
                     }
 

@@ -35,10 +35,12 @@ public class Tower {
     private String postcode;
     private String practice;
 
+    private String towerBaseId;
+
     protected Tower() {
     }
 
-    public Tower(String towerId, RingType ringType, String place1, String place2, String dedication, String county, String country, String diocese, String latitude, String longitude, int bells, int weight, String note, String hz, Boolean toilet, Boolean simulator, String extraInfo, String postcode, String practice) {
+    public Tower(String towerId, RingType ringType, String place1, String place2, String dedication, String county, String country, String diocese, String latitude, String longitude, int bells, int weight, String note, String hz, boolean toilet, boolean simulator, String extraInfo, String postcode, String practice, String towerBaseId) {
         this.towerId = towerId;
         this.ringType = ringType;
         this.place1 = place1;
@@ -58,6 +60,7 @@ public class Tower {
         this.extraInfo = extraInfo;
         this.postcode = postcode;
         this.practice = practice;
+        this.towerBaseId = towerBaseId;
     }
 
     @Override
@@ -76,12 +79,13 @@ public class Tower {
                 ", bells=" + bells +
                 ", weight=" + weight +
                 ", note='" + note + '\'' +
-                ", hz=" + hz +
+                ", hz='" + hz + '\'' +
                 ", toilet=" + toilet +
                 ", simulator=" + simulator +
                 ", extraInfo='" + extraInfo + '\'' +
                 ", postcode='" + postcode + '\'' +
                 ", practice='" + practice + '\'' +
+                ", towerBaseId='" + towerBaseId + '\'' +
                 '}';
     }
 
@@ -197,7 +201,7 @@ public class Tower {
         this.hz = hz;
     }
 
-    public boolean getToilet() {
+    public boolean isToilet() {
         return toilet;
     }
 
@@ -205,7 +209,7 @@ public class Tower {
         this.toilet = toilet;
     }
 
-    public boolean getSimulator() {
+    public boolean isSimulator() {
         return simulator;
     }
 
@@ -235,5 +239,13 @@ public class Tower {
 
     public void setPractice(String practice) {
         this.practice = practice;
+    }
+
+    public String getTowerBaseId() {
+        return towerBaseId;
+    }
+
+    public void setTowerBaseId(String towerBaseId) {
+        this.towerBaseId = towerBaseId;
     }
 }
