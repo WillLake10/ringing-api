@@ -3,7 +3,8 @@ package com.willlake.ringingapi;
 import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;
 //import com.willlake.ringingapi.methods.data.ReadMethodsFromFile;
-import com.willlake.ringingapi.methods.data.ReadMethodXml;
+import com.willlake.ringingapi.performances.PerformanceIngest;
+import com.willlake.ringingapi.performances.PerformancesRequester;
 import com.willlake.ringingapi.towers.data.TowerRepoControl;
 import com.willlake.ringingapi.towers.data.TowerRepository;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class RingingApiApplication {
     }
 
     @Bean
-    public CommandLineRunner t(MethodRepository methodRepository, MethodRepoControl methodRepoControl, TowerRepository towerRepository, TowerRepoControl towerRepoControl) {
+    public CommandLineRunner t(MethodRepository methodRepository, MethodRepoControl methodRepoControl, TowerRepository towerRepository, TowerRepoControl towerRepoControl, PerformanceIngest performanceIngest) {
         return (args) -> {
             log.info("Setting up database...");
             if (methodRepository.countAll() < 22000) {
@@ -34,6 +35,8 @@ public class RingingApiApplication {
             log.info("Database ready");
             log.info(methodRepository.countAll() + " records in the Methods Table");
             log.info(towerRepository.countAll() + " records in the Towers Table");
+
+            performanceIngest.addPerformanceToDatabase("1452346");
         };
     }
 }
