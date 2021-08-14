@@ -1,12 +1,10 @@
 package com.willlake.ringingapi.performances;
 
 import com.willlake.ringingapi.databaseObj.Performance;
-import com.willlake.ringingapi.endpoints.handlers.DatabaseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -14,7 +12,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -22,9 +19,11 @@ public class PerformanceIngest {
     private static final Logger log = LoggerFactory.getLogger(PerformanceIngest.class);
 
     private final PerformancesRequester performancesRequester;
+    private final PerformanceRepository performanceRepository;
 
-    public PerformanceIngest(PerformancesRequester performancesRequester) {
+    public PerformanceIngest(PerformancesRequester performancesRequester, PerformanceRepository performanceRepository) {
         this.performancesRequester = performancesRequester;
+        this.performanceRepository = performanceRepository;
     }
 
     public void addPerformanceToDatabase(String id) {
@@ -84,6 +83,7 @@ public class PerformanceIngest {
 
                 Performance performance = new Performance(id, association, towerBaseId, place, dedication, county, type, tenor, date, duration, changes, method, details, footnote);
 
+                performanceRepository.save(performance);
                 log.info(performance.toString());
 //                log.info(String.valueOf(doc.getElementsByTagName("date").getLength()));
 
