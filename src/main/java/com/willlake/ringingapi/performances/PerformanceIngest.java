@@ -14,6 +14,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PerformanceIngest {
     private static final Logger log = LoggerFactory.getLogger(PerformanceIngest.class);
@@ -79,19 +81,16 @@ public class PerformanceIngest {
                 details = getElementTagDoc(details, "details", doc);
 
                 NodeList footnotesNodeList = doc.getElementsByTagName("footnote");
-                String footnote = "";
+                int footnoteLength = doc.getElementsByTagName("footnote").getLength();
+                ArrayList<String> footnotes = new ArrayList<>();
+                for (int i = 0; i < footnoteLength; i++){
+                    footnotes.add(doc.getElementsByTagName("footnote").item(i).getTextContent());
+                }
 
-                Performance performance = new Performance(id, association, towerBaseId, place, dedication, county, type, tenor, date, duration, changes, method, details, footnote);
+                Performance performance = new Performance(id, association, towerBaseId, place, dedication, county, type, tenor, date, duration, changes, method, details, footnotes.toString());
 
                 performanceRepository.save(performance);
                 log.info(performance.toString());
-//                log.info(String.valueOf(doc.getElementsByTagName("date").getLength()));
-
-//                NodeList performanceNodeList = doc.getElementsByTagName("date");
-
-//                Node perfNode = performanceNodeList.item(0);
-
-                log.info(doc.getElementsByTagName("date").item(0).getTextContent());
             } catch (ParserConfigurationException | IOException | SAXException e) {
                 e.printStackTrace();
             }
