@@ -23,7 +23,6 @@ public class PerformancesRequester {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info(response.body());
             return response.body();
         } catch (IOException | InterruptedException e) {
             log.error("Http request for " + id + " failed", e);

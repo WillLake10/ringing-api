@@ -110,7 +110,7 @@ public class PerformanceIngest {
                 Performance performance = new Performance(id, association, towerBaseId, place, dedication, county, type, tenor, date, duration, changes, method, details, footnotes.toString());
 
                 performanceRepository.save(performance);
-                log.info(performance.toString());
+                log.info("Performance added to database: " + performance);
             } catch (ParserConfigurationException | IOException | SAXException e) {
                 e.printStackTrace();
             }
