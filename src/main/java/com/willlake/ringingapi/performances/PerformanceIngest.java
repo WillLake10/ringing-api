@@ -5,6 +5,7 @@ import com.willlake.ringingapi.databaseObj.Ringer;
 import com.willlake.ringingapi.databaseObj.RingerId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PerformanceIngest {
     private static final Logger log = LoggerFactory.getLogger(PerformanceIngest.class);
@@ -95,7 +97,14 @@ public class PerformanceIngest {
 
                 int ringerLength = ringersElement.getElementsByTagName("ringer").getLength();
                 for (int i = 0; i < ringerLength; i++){
-                    ringerRepository.save(new Ringer(new RingerId(id, ringersElement.getElementsByTagName("ringer").item(i).getAttributes().getNamedItem("bell").getTextContent()), ringersElement.getElementsByTagName("ringer").item(i).getTextContent()));
+                    boolean conductor = false;
+                    try {
+                        if (Objects.equals(ringersElement.getElementsByTagName("ringer").item(i).getAttributes().getNamedItem("conductor").getTextContent(), "true")) {
+                            conductor = true;
+                        }
+                    } catch (Exception ignored) {}
+
+                    ringerRepository.save(new Ringer(new RingerId(id, ringersElement.getElementsByTagName("ringer").item(i).getAttributes().getNamedItem("bell").getTextContent()), ringersElement.getElementsByTagName("ringer").item(i).getTextContent(), conductor));
                 }
 
                 Performance performance = new Performance(id, association, towerBaseId, place, dedication, county, type, tenor, date, duration, changes, method, details, footnotes.toString());
