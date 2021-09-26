@@ -2,13 +2,11 @@ package com.willlake.ringingapi.databaseObj;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Performance {
     @Id
-    private String performanceID;
+    private String performanceId;
 
     private String association;
 
@@ -33,7 +31,7 @@ public class Performance {
     protected Performance(){}
 
     public Performance(String performanceID, String association, String towerBaseId, String place, String dedication, String county, String type, String tenor, String date, String duration, String changes, String method, String details, String footnotes) {
-        this.performanceID = performanceID;
+        this.performanceId = performanceID;
         this.association = association;
         this.towerBaseId = towerBaseId;
         this.place = place;
@@ -52,7 +50,7 @@ public class Performance {
     @Override
     public String toString() {
         return "Performance{" +
-                "performanceID='" + performanceID + '\'' +
+                "performanceID='" + performanceId + '\'' +
                 ", association='" + association + '\'' +
                 ", towerBaseId='" + towerBaseId + '\'' +
                 ", place='" + place + '\'' +

@@ -1,36 +1,28 @@
 package com.willlake.ringingapi.databaseObj;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Ringer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long ringerId;
+    @EmbeddedId
+    private RingerId ringerId;
 
-    private String performanceId;
-
-    private String bell;
     private String name;
+    private String userId;
 
     protected Ringer(){}
 
-    public Ringer(String performanceId, String bell, String name) {
-        this.performanceId = performanceId;
-        this.bell = bell;
+    public Ringer(RingerId ringerId, String name) {
+        this.ringerId = ringerId;
         this.name = name;
+        this.userId = "";
     }
 
     @Override
     public String toString() {
         return "Ringer{" +
                 "ringerId=" + ringerId +
-                ", performanceId='" + performanceId + '\'' +
-                ", bell='" + bell + '\'' +
-                ", name='" + name + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

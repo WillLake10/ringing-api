@@ -1,6 +1,8 @@
 package com.willlake.ringingapi.performances;
 
 import com.willlake.ringingapi.databaseObj.Performance;
+import com.willlake.ringingapi.databaseObj.Ringer;
+import com.willlake.ringingapi.databaseObj.RingerId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -22,10 +24,12 @@ public class PerformanceIngest {
 
     private final PerformancesRequester performancesRequester;
     private final PerformanceRepository performanceRepository;
+    private final  RingerRepository ringerRepository;
 
-    public PerformanceIngest(PerformancesRequester performancesRequester, PerformanceRepository performanceRepository) {
+    public PerformanceIngest(PerformancesRequester performancesRequester, PerformanceRepository performanceRepository, RingerRepository ringerRepository) {
         this.performancesRequester = performancesRequester;
         this.performanceRepository = performanceRepository;
+        this.ringerRepository = ringerRepository;
     }
 
     public void addPerformanceToDatabase(String id) {
@@ -42,6 +46,9 @@ public class PerformanceIngest {
 
                 NodeList titleNodeList = doc.getElementsByTagName("title");
                 Element titleElement = (Element) titleNodeList.item(0);
+
+                NodeList ringersNodeList = doc.getElementsByTagName("ringers");
+                Element ringersElement = (Element) ringersNodeList.item(0);
 
                 String association = "";
                 String towerBaseId = "";
@@ -80,11 +87,15 @@ public class PerformanceIngest {
                 method = getElementTag(method, "method", titleElement);
                 details = getElementTagDoc(details, "details", doc);
 
-                NodeList footnotesNodeList = doc.getElementsByTagName("footnote");
                 int footnoteLength = doc.getElementsByTagName("footnote").getLength();
                 ArrayList<String> footnotes = new ArrayList<>();
                 for (int i = 0; i < footnoteLength; i++){
                     footnotes.add(doc.getElementsByTagName("footnote").item(i).getTextContent());
+                }
+
+                int ringerLength = ringersElement.getElementsByTagName("ringer").getLength();
+                for (int i = 0; i < ringerLength; i++){
+                    ringerRepository.save(new Ringer(new RingerId(id, ringersElement.getElementsByTagName("ringer").item(i).getAttributes().getNamedItem("bell").getTextContent()), ringersElement.getElementsByTagName("ringer").item(i).getTextContent()));
                 }
 
                 Performance performance = new Performance(id, association, towerBaseId, place, dedication, county, type, tenor, date, duration, changes, method, details, footnotes.toString());
