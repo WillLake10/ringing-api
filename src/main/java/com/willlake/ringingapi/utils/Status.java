@@ -1,20 +1,22 @@
 package com.willlake.ringingapi.utils;
 
+import org.springframework.http.HttpStatus;
+
 public class Status {
-    private RequestStatus requestStatus;
+    private HttpStatus httpStatus;
     private String message;
 
-    public Status(RequestStatus requestStatus, String message) {
-        this.requestStatus = requestStatus;
+    public Status(HttpStatus requestStatus, String message) {
+        this.httpStatus = requestStatus;
         this.message = message;
     }
 
-    public RequestStatus getRequestStatus() {
-        return requestStatus;
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
     }
 
-    public void setRequestStatus(RequestStatus requestStatus) {
-        this.requestStatus = requestStatus;
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
     }
 
     public String getMessage() {
@@ -28,7 +30,7 @@ public class Status {
     @Override
     public String toString() {
         return "Status{" +
-                "requestStatus=" + requestStatus +
+                "httpStatus=" + httpStatus +
                 ", message='" + message + '\'' +
                 '}';
     }

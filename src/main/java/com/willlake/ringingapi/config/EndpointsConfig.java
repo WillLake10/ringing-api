@@ -1,12 +1,9 @@
 package com.willlake.ringingapi.config;
 
-import com.willlake.ringingapi.endpoints.handlers.DatabaseHandler;
-import com.willlake.ringingapi.endpoints.handlers.MethodHandler;
-import com.willlake.ringingapi.endpoints.handlers.TowerHandler;
-import com.willlake.ringingapi.endpoints.handlers.UserHandler;
+import com.willlake.ringingapi.endpoints.handlers.*;
 import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;
-import com.willlake.ringingapi.performances.PerformanceRepoControl;
+import com.willlake.ringingapi.performances.PerformanceIngest;
 import com.willlake.ringingapi.towers.data.TowerRepoControl;
 import com.willlake.ringingapi.towers.data.TowerRepository;
 import com.willlake.ringingapi.user.data.UserRepoControl;
@@ -41,5 +38,10 @@ public class EndpointsConfig {
     @Bean
     public UserHandler userHandler(UserRepoControl userRepoControl) {
         return new UserHandler(userRepoControl);
+    }
+
+    @Bean
+    public PerformanceHandler performanceHandler(PerformanceIngest performanceIngest) {
+        return new PerformanceHandler(performanceIngest);
     }
 }

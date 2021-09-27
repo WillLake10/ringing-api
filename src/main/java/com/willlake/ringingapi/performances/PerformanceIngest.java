@@ -3,9 +3,10 @@ package com.willlake.ringingapi.performances;
 import com.willlake.ringingapi.databaseObj.Performance;
 import com.willlake.ringingapi.databaseObj.Ringer;
 import com.willlake.ringingapi.databaseObj.RingerId;
+import com.willlake.ringingapi.utils.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.DOMException;
+import org.springframework.http.HttpStatus;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -18,7 +19,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class PerformanceIngest {
@@ -34,7 +34,7 @@ public class PerformanceIngest {
         this.ringerRepository = ringerRepository;
     }
 
-    public void addPerformanceToDatabase(String id) {
+    public Status addPerformanceToDatabase(String id) {
         String performanceXml = performancesRequester.getPerformance(id);
         if (performanceXml != null){
             try {
@@ -111,10 +111,13 @@ public class PerformanceIngest {
 
                 performanceRepository.save(performance);
                 log.info("Performance added to database: " + performance);
+                return new Status(HttpStatus.OK, "Successfully added performance: " + id);
             } catch (ParserConfigurationException | IOException | SAXException e) {
-                e.printStackTrace();
+                log.warn("Something went wrong adding performance: " + id, e);
+                return new Status(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong adding performance: " + id);
             }
         }
+        return new Status(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong adding performance: " + id);
     }
 
     public String getElementTag(String field, String fieldName, Element element) {
