@@ -57,7 +57,7 @@ public class ReadTowerCsv {
                                         values[24],
                                         values[28],
                                         values[29],
-                                        values[36]
+                                        removeLeadingZeros(values[36])
                                 )
                         );
                     } catch (Exception e) {
@@ -72,5 +72,13 @@ public class ReadTowerCsv {
             log.error("File Read Failed", e);
         }
         return towers;
+    }
+
+    private String removeLeadingZeros(String value){
+        StringBuilder sb = new StringBuilder(value);
+        while (sb.length() > 0 && sb.charAt(0) == '0') {
+            sb.deleteCharAt(0);
+        }
+        return sb.toString();
     }
 }
