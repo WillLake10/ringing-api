@@ -1,5 +1,6 @@
 package com.willlake.ringingapi.databaseObj;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -24,8 +25,10 @@ public class Performance {
     private String changes;
     private String method;
 
+    @Column(length = 10000)
     private String details;
 
+    @Column(length = 10000)
     private String footnotes;
 
     protected Performance(){}

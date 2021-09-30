@@ -20,4 +20,9 @@ public class PerformanceController {
     public ResponseEntity<String> add(@PathVariable String id) {
         return performanceHandler.add(id);
     }
+
+    @RequestMapping(value = "/addFromSearch/{search}", method = RequestMethod.POST)
+    public ResponseEntity<String> addFromSearch(@PathVariable String search) {
+        return performanceHandler.addFromSearch(search);
+    }
 }

@@ -2,9 +2,7 @@ package com.willlake.ringingapi;
 
 import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;
-//import com.willlake.ringingapi.methods.data.ReadMethodsFromFile;
 import com.willlake.ringingapi.performances.PerformanceIngest;
-import com.willlake.ringingapi.performances.PerformancesRequester;
 import com.willlake.ringingapi.towers.data.TowerRepoControl;
 import com.willlake.ringingapi.towers.data.TowerRepository;
 import org.slf4j.Logger;
@@ -13,6 +11,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+//import com.willlake.ringingapi.methods.data.ReadMethodsFromFile;
 
 @SpringBootApplication
 public class RingingApiApplication {
@@ -36,7 +36,8 @@ public class RingingApiApplication {
             log.info(methodRepository.countAll() + " records in the Methods Table");
             log.info(towerRepository.countAll() + " records in the Towers Table");
 
-            performanceIngest.addPerformanceToDatabase("1452346");
+//            performanceIngest.addPerformanceToDatabase("1452346");
+            performanceIngest.addPerformancesFromSearch("place=york");
         };
     }
 }

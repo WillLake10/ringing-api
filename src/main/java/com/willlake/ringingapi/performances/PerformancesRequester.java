@@ -26,7 +26,24 @@ public class PerformancesRequester {
             return response.body();
         } catch (IOException | InterruptedException e) {
             log.error("Http request for " + id + " failed", e);
-            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String searchPerformance(String searchString){
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder(
+                        URI.create("https://bb.ringingworld.co.uk/search.php?" + searchString + "&pagesize=20000"))
+                .header("Accept", " application/xml")
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.body();
+        } catch (IOException | InterruptedException e) {
+            log.error("Http search request for " + searchString + " failed", e);
         }
         return null;
     }

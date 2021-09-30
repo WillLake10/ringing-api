@@ -26,7 +26,7 @@ public class PerformanceIngest {
 
     private final PerformancesRequester performancesRequester;
     private final PerformanceRepository performanceRepository;
-    private final  RingerRepository ringerRepository;
+    private final RingerRepository ringerRepository;
 
     public PerformanceIngest(PerformancesRequester performancesRequester, PerformanceRepository performanceRepository, RingerRepository ringerRepository) {
         this.performancesRequester = performancesRequester;
@@ -36,7 +36,7 @@ public class PerformanceIngest {
 
     public Status addPerformanceToDatabase(String id) {
         String performanceXml = performancesRequester.getPerformance(id);
-        if (performanceXml != null){
+        if (performanceXml != null) {
             try {
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 DocumentBuilder db = dbf.newDocumentBuilder();
@@ -65,46 +65,95 @@ public class PerformanceIngest {
                 String method = "";
                 String details = "";
 
-                association = getElementTagDoc(association, "association", doc);
-                towerBaseId = doc.getElementsByTagName("place").item(0).getAttributes().getNamedItem("towerbase-id").getTextContent();
+                try {
+                    association = getElementTagDoc(association, "association", doc);
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing association");
+                }
+                try {
+                    towerBaseId = doc.getElementsByTagName("place").item(0).getAttributes().getNamedItem("towerbase-id").getTextContent();
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing towerBaseId");
+                }
                 place = "";
                 dedication = "";
                 county = "";
-                for (int i = 0; i <= 3; i++){
+                for (int i = 0; i <= 3; i++) {
                     try {
                         place = placeElement.getElementsByTagName("place-name").item(i).getAttributes().getNamedItem("place").getTextContent();
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                     try {
                         dedication = placeElement.getElementsByTagName("place-name").item(i).getAttributes().getNamedItem("dedication").getTextContent();
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                     try {
                         county = placeElement.getElementsByTagName("place-name").item(i).getAttributes().getNamedItem("county").getTextContent();
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                 }
-                type = placeElement.getElementsByTagName("ring").item(0).getAttributes().getNamedItem("type").getTextContent();
-                tenor = placeElement.getElementsByTagName("ring").item(0).getAttributes().getNamedItem("tenor").getTextContent();
-                date = getElementTagDoc(date, "date", doc);
-                duration = getElementTagDoc(duration, "duration", doc);
-                changes = getElementTag(changes, "changes", titleElement);
-                method = getElementTag(method, "method", titleElement);
-                details = getElementTagDoc(details, "details", doc);
+                try {
+                    type = placeElement.getElementsByTagName("ring").item(0).getAttributes().getNamedItem("type").getTextContent();
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing type");
+                }
+                try {
+                    tenor = placeElement.getElementsByTagName("ring").item(0).getAttributes().getNamedItem("tenor").getTextContent();
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing tenor");
+                }
+                try {
+                    date = getElementTagDoc(date, "date", doc);
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing date");
+                }
+                try {
+                    duration = getElementTagDoc(duration, "duration", doc);
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing duration");
+                }
+                try {
+                    changes = getElementTag(changes, "changes", titleElement);
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing changes");
+                }
+                try {
+                    method = getElementTag(method, "method", titleElement);
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing method");
+                }
+                try {
+                    details = getElementTagDoc(details, "details", doc);
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing details");
+                }
 
-                int footnoteLength = doc.getElementsByTagName("footnote").getLength();
+
                 ArrayList<String> footnotes = new ArrayList<>();
-                for (int i = 0; i < footnoteLength; i++){
-                    footnotes.add(doc.getElementsByTagName("footnote").item(i).getTextContent());
+                try {
+                    int footnoteLength = doc.getElementsByTagName("footnote").getLength();
+                    for (int i = 0; i < footnoteLength; i++) {
+                        footnotes.add(doc.getElementsByTagName("footnote").item(i).getTextContent());
+                    }
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing footnotes");
                 }
 
-                int ringerLength = ringersElement.getElementsByTagName("ringer").getLength();
-                for (int i = 0; i < ringerLength; i++){
-                    boolean conductor = false;
-                    try {
-                        if (Objects.equals(ringersElement.getElementsByTagName("ringer").item(i).getAttributes().getNamedItem("conductor").getTextContent(), "true")) {
-                            conductor = true;
+                try {
+                    int ringerLength = ringersElement.getElementsByTagName("ringer").getLength();
+                    for (int i = 0; i < ringerLength; i++) {
+                        boolean conductor = false;
+                        try {
+                            if (Objects.equals(ringersElement.getElementsByTagName("ringer").item(i).getAttributes().getNamedItem("conductor").getTextContent(), "true")) {
+                                conductor = true;
+                            }
+                        } catch (Exception ignored) {
                         }
-                    } catch (Exception ignored) {}
 
-                    ringerRepository.save(new Ringer(new RingerId(id, ringersElement.getElementsByTagName("ringer").item(i).getAttributes().getNamedItem("bell").getTextContent()), ringersElement.getElementsByTagName("ringer").item(i).getTextContent(), conductor));
+                        ringerRepository.save(new Ringer(new RingerId(id, ringersElement.getElementsByTagName("ringer").item(i).getAttributes().getNamedItem("bell").getTextContent()), ringersElement.getElementsByTagName("ringer").item(i).getTextContent(), conductor));
+                    }
+                } catch (Exception ignored) {
+                    log.warn("Performance " + id + " missing ringers");
                 }
 
                 Performance performance = new Performance(id, association, towerBaseId, place, dedication, county, type, tenor, date, duration, changes, method, details, footnotes.toString());
@@ -120,7 +169,7 @@ public class PerformanceIngest {
         return new Status(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong adding performance: " + id);
     }
 
-    public String getElementTag(String field, String fieldName, Element element) {
+    private String getElementTag(String field, String fieldName, Element element) {
         try {
             field = element.getElementsByTagName(fieldName).item(0).getTextContent();
         } catch (Exception ignored) {
@@ -128,7 +177,7 @@ public class PerformanceIngest {
         return field;
     }
 
-    public String getElementTagDoc(String field, String fieldName, Document element) {
+    private String getElementTagDoc(String field, String fieldName, Document element) {
         try {
             field = element.getElementsByTagName(fieldName).item(0).getTextContent();
         } catch (Exception ignored) {
@@ -136,4 +185,28 @@ public class PerformanceIngest {
         return field;
     }
 
+    public Status addPerformancesFromSearch(String searchString) {
+        String searchXml = performancesRequester.searchPerformance(searchString);
+        if (searchXml != null) {
+            try {
+
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+
+                Document doc = db.parse(new InputSource(new StringReader(searchXml)));
+
+                int performanceLength = doc.getElementsByTagName("performance").getLength();
+                for (int i = 0; i < performanceLength; i++) {
+                    String id = doc.getElementsByTagName("performance").item(i).getAttributes().getNamedItem("href").getTextContent().replace("view.php?id=", "");
+                    log.info(i + "/" + performanceLength + " added to database");
+                    addPerformanceToDatabase(id);
+                }
+                log.info(performanceLength + " performances");
+            } catch (ParserConfigurationException | IOException | SAXException e) {
+                log.warn("Something went wrong searching for performances with search: " + searchString, e);
+                return new Status(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong searching for performances with search: " + searchString);
+            }
+        }
+        return new Status(HttpStatus.INTERNAL_SERVER_ERROR, "No performances to be added from search: " + searchString);
+    }
 }
