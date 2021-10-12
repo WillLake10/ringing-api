@@ -2,9 +2,13 @@ package com.willlake.ringingapi;
 
 import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;
+import com.willlake.ringingapi.performances.PerformanceCsvHandling;
 import com.willlake.ringingapi.performances.PerformanceIngest;
+import com.willlake.ringingapi.performances.PerformanceRepository;
+import com.willlake.ringingapi.performances.RingerRepository;
 import com.willlake.ringingapi.towers.data.TowerRepoControl;
 import com.willlake.ringingapi.towers.data.TowerRepository;
+import com.willlake.ringingapi.user.data.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -23,7 +27,7 @@ public class RingingApiApplication {
     }
 
     @Bean
-    public CommandLineRunner t(MethodRepository methodRepository, MethodRepoControl methodRepoControl, TowerRepository towerRepository, TowerRepoControl towerRepoControl, PerformanceIngest performanceIngest) {
+    public CommandLineRunner t(MethodRepository methodRepository, MethodRepoControl methodRepoControl, TowerRepository towerRepository, TowerRepoControl towerRepoControl, PerformanceCsvHandling performanceCsvHandling, PerformanceIngest performanceIngest, UserRepository userRepository, PerformanceRepository performanceRepository, RingerRepository ringerRepository) {
         return (args) -> {
             log.info("Setting up database...");
             if (methodRepository.countAll() < 22000) {
@@ -35,9 +39,14 @@ public class RingingApiApplication {
             log.info("Database ready");
             log.info(methodRepository.countAll() + " records in the Methods Table");
             log.info(towerRepository.countAll() + " records in the Towers Table");
+            log.info(userRepository.countAll() + " records in the User Table");
+            log.info(performanceRepository.countAll() + " records in the Performance Table");
+            log.info(ringerRepository.countAll() + " records in the Ringer Table");
 
 //            performanceIngest.addPerformanceToDatabase("1452346");
-            performanceIngest.addPerformancesFromSearch("place=york");
+//            performanceIngest.addPerformancesFromSearch("place=york");
+            performanceCsvHandling.exportToCsv();
+//            performanceCsvHandling.importFromFile();
         };
     }
 }

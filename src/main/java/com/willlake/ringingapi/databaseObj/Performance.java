@@ -3,9 +3,10 @@ package com.willlake.ringingapi.databaseObj;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class Performance {
+public class Performance implements Serializable {
     @Id
     private String performanceId;
 

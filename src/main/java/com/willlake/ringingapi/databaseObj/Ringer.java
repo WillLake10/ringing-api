@@ -1,9 +1,11 @@
 package com.willlake.ringingapi.databaseObj;
 
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import java.io.Serializable;
 
 @Entity
-public class Ringer {
+public class Ringer implements Serializable {
     @EmbeddedId
     private RingerId ringerId;
 
@@ -24,6 +26,8 @@ public class Ringer {
     public String toString() {
         return "Ringer{" +
                 "ringerId=" + ringerId +
+                ", name='" + name + '\'' +
+                ", conductor=" + conductor +
                 ", userId='" + userId + '\'' +
                 '}';
     }

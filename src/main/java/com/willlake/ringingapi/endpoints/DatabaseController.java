@@ -1,7 +1,6 @@
 package com.willlake.ringingapi.endpoints;
 
 import com.willlake.ringingapi.endpoints.handlers.DatabaseHandler;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,4 +34,11 @@ public class DatabaseController {
     public ResponseEntity<String> addTowersFromFile() {
         return databaseHandler.addTowersFromFile();
     }
+
+    @RequestMapping(value = "/addFromFile/performances", method = RequestMethod.GET)
+    public ResponseEntity<String> addPerformancesFromFile() {
+        return databaseHandler.addPerformancesFromFile();
+    }
+
+
 }

@@ -2,7 +2,9 @@ package com.willlake.ringingapi.endpoints.handlers;
 
 import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;
-import com.willlake.ringingapi.performances.PerformanceRepoControl;
+import com.willlake.ringingapi.performances.PerformanceCsvHandling;
+import com.willlake.ringingapi.performances.PerformanceRepository;
+import com.willlake.ringingapi.performances.RingerRepository;
 import com.willlake.ringingapi.towers.data.TowerRepoControl;
 import com.willlake.ringingapi.towers.data.TowerRepository;
 import com.willlake.ringingapi.user.data.UserRepoControl;
@@ -21,14 +23,20 @@ public class DatabaseHandler {
     private TowerRepository towerRepository;
     private UserRepoControl userRepoControl;
     private UserRepository userRepository;
+    private PerformanceRepository performanceRepository;
+    private PerformanceCsvHandling performanceCsvHandling;
+    private RingerRepository ringerRepository;
 
-    public DatabaseHandler(MethodRepoControl methodRepoControl, MethodRepository methodRepository, TowerRepoControl towerRepoControl, TowerRepository towerRepository, UserRepoControl userRepoControl, UserRepository userRepository) {
+    public DatabaseHandler(MethodRepoControl methodRepoControl, MethodRepository methodRepository, TowerRepoControl towerRepoControl, TowerRepository towerRepository, UserRepoControl userRepoControl, UserRepository userRepository, PerformanceRepository performanceRepository, PerformanceCsvHandling performanceCsvHandling, RingerRepository ringerRepository) {
         this.methodRepoControl = methodRepoControl;
         this.methodRepository = methodRepository;
         this.towerRepoControl = towerRepoControl;
         this.towerRepository = towerRepository;
         this.userRepoControl = userRepoControl;
         this.userRepository = userRepository;
+        this.performanceRepository = performanceRepository;
+        this.performanceCsvHandling = performanceCsvHandling;
+        this.ringerRepository = ringerRepository;
     }
 
     public ResponseEntity<String> clear() {
@@ -38,10 +46,17 @@ public class DatabaseHandler {
         log.info("Tower table cleared");
         userRepoControl.clearAllUsersFromDB();
         log.info("User table cleared");
+        performanceRepository.deleteAll();
+        log.info("Performance table cleared");
+        ringerRepository.deleteAll();
+        log.info("Ringer table cleared");
+
 
         log.info(methodRepository.countAll() + " records in the Methods Table");
         log.info(towerRepository.countAll() + " records in the Tower Table");
         log.info(userRepository.countAll() + " records in the Tower Table");
+        log.info(performanceRepository.countAll() + " records in the Tower Table");
+        log.info(ringerRepository.countAll() + " records in the Tower Table");
 
         if (methodRepository.countAll() == 0 && towerRepository.countAll() == 0 && userRepository.countAll() == 0){
             return new ResponseEntity<>("All tables successfully cleared", HttpStatus.OK);
@@ -51,8 +66,7 @@ public class DatabaseHandler {
     }
 
     public ResponseEntity<String> addMethodsFromFile() {
-        methodRepoControl.addMethodsFromFile();
-        log.info(methodRepository.countAll() + " records in the Methods Table");
+        addMethods();
         if (methodRepository.countAll() >= 22000){
             return new ResponseEntity<>("All methods successfully added", HttpStatus.OK);
         } else {
@@ -61,8 +75,7 @@ public class DatabaseHandler {
     }
 
     public ResponseEntity<String> addTowersFromFile() {
-        towerRepoControl.addTowersFromFile();
-        log.info(towerRepository.countAll() + " records in the Towers Table");
+        addTowers();
         if (towerRepository.countAll() >= 7000){
             return new ResponseEntity<>("All towers successfully added", HttpStatus.OK);
         } else {
@@ -70,15 +83,35 @@ public class DatabaseHandler {
         }
     }
 
+    public ResponseEntity<String> addPerformancesFromFile() {
+        addPerformancesFromCsv();
+        return new ResponseEntity<>("All performances and ringers successfully added", HttpStatus.OK);
+    }
+
     public ResponseEntity<String> addAllFromFile() {
-        methodRepoControl.addMethodsFromFile();
-        log.info(methodRepository.countAll() + " records in the Methods Table");
-        towerRepoControl.addTowersFromFile();
+        addMethods();
+        addTowers();
         log.info(towerRepository.countAll() + " records in the Towers Table");
         if (methodRepository.countAll() >= 22000 && towerRepository.countAll() >= 7000){
             return new ResponseEntity<>("All methods and towers successfully added", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Something when wrong: not all methods and towers added", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private void addMethods(){
+        methodRepoControl.addMethodsFromFile();
+        log.info(methodRepository.countAll() + " records in the Methods Table");
+    }
+
+    private void addTowers(){
+        towerRepoControl.addTowersFromFile();
+        log.info(towerRepository.countAll() + " records in the Towers Table");
+    }
+
+    private void addPerformancesFromCsv(){
+        performanceCsvHandling.importFromFile();
+        log.info(performanceRepository.countAll() + " records in the Performances Table");
+        log.info(ringerRepository.countAll() + " records in the Ringers Table");
     }
 }

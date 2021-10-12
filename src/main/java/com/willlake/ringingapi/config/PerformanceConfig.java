@@ -1,5 +1,6 @@
 package com.willlake.ringingapi.config;
 
+import com.willlake.ringingapi.performances.PerformanceCsvHandling;
 import com.willlake.ringingapi.performances.PerformanceIngest;
 import com.willlake.ringingapi.performances.PerformanceRepository;
 import com.willlake.ringingapi.performances.PerformancesRequester;
@@ -17,5 +18,10 @@ public class PerformanceConfig {
     @Bean
     public PerformanceIngest performanceIngest(PerformancesRequester performancesRequester, PerformanceRepository performanceRepository, RingerRepository ringerRepository) {
         return new PerformanceIngest(performancesRequester, performanceRepository, ringerRepository);
+    }
+
+    @Bean
+    public PerformanceCsvHandling performanceCsvHandling(PerformanceRepository performanceRepository, RingerRepository ringerRepository){
+        return new PerformanceCsvHandling(performanceRepository, ringerRepository);
     }
 }

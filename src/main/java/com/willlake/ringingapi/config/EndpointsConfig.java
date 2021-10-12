@@ -3,7 +3,10 @@ package com.willlake.ringingapi.config;
 import com.willlake.ringingapi.endpoints.handlers.*;
 import com.willlake.ringingapi.methods.data.MethodRepoControl;
 import com.willlake.ringingapi.methods.data.MethodRepository;
+import com.willlake.ringingapi.performances.PerformanceCsvHandling;
 import com.willlake.ringingapi.performances.PerformanceIngest;
+import com.willlake.ringingapi.performances.PerformanceRepository;
+import com.willlake.ringingapi.performances.RingerRepository;
 import com.willlake.ringingapi.towers.data.TowerRepoControl;
 import com.willlake.ringingapi.towers.data.TowerRepository;
 import com.willlake.ringingapi.user.data.UserRepoControl;
@@ -20,9 +23,12 @@ public class EndpointsConfig {
             TowerRepoControl towerRepoControl,
             TowerRepository towerRepository,
             UserRepoControl userRepoControl,
-            UserRepository userRepository
+            UserRepository userRepository,
+            PerformanceRepository performanceRepository,
+            PerformanceCsvHandling performanceCsvHandling,
+            RingerRepository ringerRepository
     ) {
-        return new DatabaseHandler(methodRepoControl, methodRepository, towerRepoControl, towerRepository, userRepoControl, userRepository);
+        return new DatabaseHandler(methodRepoControl, methodRepository, towerRepoControl, towerRepository, userRepoControl, userRepository, performanceRepository, performanceCsvHandling, ringerRepository);
     }
 
     @Bean

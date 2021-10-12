@@ -13,4 +13,12 @@ public class RingerId implements Serializable {
         this.performanceId = performanceId;
         this.bell = bell;
     }
+
+    @Override
+    public String toString() {
+        return "RingerId{" +
+                "performanceId='" + performanceId + '\'' +
+                ", bell='" + bell + '\'' +
+                '}';
+    }
 }
