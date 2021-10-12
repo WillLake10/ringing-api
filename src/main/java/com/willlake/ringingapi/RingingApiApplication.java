@@ -45,7 +45,7 @@ public class RingingApiApplication {
 
 //            performanceIngest.addPerformanceToDatabase("1452346");
 //            performanceIngest.addPerformancesFromSearch("place=york");
-            performanceCsvHandling.exportToCsv();
+//            performanceCsvHandling.exportToCsv();
 //            performanceCsvHandling.importFromFile();
         };
     }

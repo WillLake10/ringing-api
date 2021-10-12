@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PerformanceCsvHandling {
     private static final Logger log = LoggerFactory.getLogger(PerformanceCsvHandling.class);
@@ -78,21 +80,25 @@ public class PerformanceCsvHandling {
             FileInputStream fi = new FileInputStream(PERFORMANCES_CSV);
             ObjectInputStream oi = new ObjectInputStream(fi);
 
+            Set<Performance> performances = new HashSet<>();
             int i = 0;
             while (true) {
                 try {
                     Performance performance = (Performance) oi.readObject();
 //                    log.info(performance.toString());
-                    performanceRepository.save(performance);
+                    performances.add(performance);
                 } catch (EOFException e) {
                     log.info("End of File");
                     break;
                 }
                 i++;
                 if (i%100 == 0){
-                    log.info(i + " ringers added");
+                    log.info(i + " performances read");
                 }
             }
+
+            performanceRepository.saveAll(performances);
+            log.info("Performances saved to db");
 
             fi.close();
             oi.close();
@@ -103,21 +109,25 @@ public class PerformanceCsvHandling {
             FileInputStream fi = new FileInputStream(RINGERS_CSV);
             ObjectInputStream oi = new ObjectInputStream(fi);
 
+            Set<Ringer> ringers = new HashSet<>();
             int i = 0;
             while (true) {
                 try {
                     Ringer ringer = (Ringer) oi.readObject();
 //                    log.info(ringer.toString());
-                    ringerRepository.save(ringer);
+                    ringers.add(ringer);
                 } catch (EOFException e) {
                     log.info("End of File");
                     break;
                 }
                 i++;
                 if (i%100 == 0){
-                    log.info(i + " ringers added");
+                    log.info(i + " ringers read");
                 }
             }
+
+            ringerRepository.saveAll(ringers);
+            log.info("Ringers saved to db");
 
             fi.close();
             oi.close();
