@@ -1,5 +1,6 @@
 package com.willlake.ringingapi.endpoints;
 
+import com.willlake.ringingapi.endpoints.dto.MethodShort;
 import com.willlake.ringingapi.endpoints.handlers.MethodHandler;
 import com.willlake.ringingapi.databaseObj.Method;
 import com.willlake.ringingapi.methods.data.dto.PlainCourse;
@@ -22,7 +23,7 @@ public class MethodController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<Iterable<Method>> allMethods() {
+    public ResponseEntity<Iterable<MethodShort>> allMethods() {
         return new ResponseEntity<>(methodHandler.allMethods(), HttpStatus.OK);
     }
 

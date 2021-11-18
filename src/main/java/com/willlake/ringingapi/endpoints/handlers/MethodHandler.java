@@ -1,5 +1,6 @@
 package com.willlake.ringingapi.endpoints.handlers;
 
+import com.willlake.ringingapi.endpoints.dto.MethodShort;
 import com.willlake.ringingapi.methods.data.dto.Lead;
 import com.willlake.ringingapi.databaseObj.Method;
 import com.willlake.ringingapi.methods.data.MethodRepository;
@@ -7,6 +8,7 @@ import com.willlake.ringingapi.methods.data.dto.PlainCourse;
 import com.willlake.ringingapi.methods.data.dto.Row;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class MethodHandler {
@@ -16,8 +18,11 @@ public class MethodHandler {
         this.methodRepository = methodRepository;
     }
 
-    public Iterable<Method> allMethods() {
-        return methodRepository.findAll();
+    public Iterable<MethodShort> allMethods() {
+        Iterable<Method> allMethod = methodRepository.findAll();
+        List<MethodShort> allMethodShort = new ArrayList<MethodShort>();
+        allMethod.forEach(method -> allMethodShort.add(new MethodShort(method.getMethodId(), method.getStage(),method.getTitle(), method.getClassification())));
+        return allMethodShort;
     }
 
     public Method getMethod(String methodId) {
